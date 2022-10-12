@@ -118,7 +118,7 @@ public interface SubscribeDao {
 	@Select("select count(*) from subscription_review")
 	int getTotalContent();
 	
-	List<SubscriptionReview> selectSubscriptionReviewListCollection(RowBounds rowBounds);
+	List<SubscriptionReview> selectSubscriptionReviewListCollection(Map<String, Integer> param);
 
 	SubscriptionReview selectOneSubscriptionReviewCollection(String sReviewNo);
 	

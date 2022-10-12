@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.monong.common.MonongUtils;
 import com.kh.monong.subscribe.model.dao.SubscribeDao;
 import com.kh.monong.subscribe.model.dto.CardInfo;
 import com.kh.monong.subscribe.model.dto.Subscription;
@@ -196,9 +196,9 @@ public class SubscribeServiceImpl implements SubscribeService {
 	public List<SubscriptionReview> selectSubscriptionReviewList(Map<String, Integer> param) {
 		int limit = param.get("limit");
 		int offset = (param.get("cPage") - 1) * limit;
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return subscribeDao.selectSubscriptionReviewListCollection(rowBounds);
+		// RowBounds rowBounds = new RowBounds(offset, limit);
+		List<SubscriptionReview> sReviewList = subscribeDao.selectSubscriptionReviewListCollection(param);
+		return (List<SubscriptionReview>) MonongUtils.customRowBounds(offset, limit, sReviewList);
 	}
 	
 	@Override
