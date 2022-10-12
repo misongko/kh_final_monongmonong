@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>후기 작성</title>
+<title>후기 수정</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -224,7 +224,7 @@ body {
 		        	<div onclick="delImg(this)" style="margin: 10px 0;">
 			        	<input type="checkbox" id="delFile${vs.count}" name="delFiles" value="${attach.SAttachNo}" style="display:none;">
 			        	<div>
-			        		<img src="${pageContext.request.contextPath}/resources/upload/subscribe/review/${attach.SReviewRenamedFilename}" alt="" width="300px"/>
+			        		<img src="${pageContext.request.contextPath}/resources/upload/subscribe/review/${attach.SReviewRenamedFilename}" width="300px"/>
 			        	</div>
 		        	</div>
 		        </c:forEach>
@@ -238,6 +238,7 @@ body {
 </form>
 </section>
 <script>
+// 첨부된 사진 개수
 let attachedCnt = Number(document.querySelector(".attached-cnt").value);
 console.log('attachedCnt', attachedCnt);
 
@@ -247,11 +248,10 @@ window.onload = () => {
 	
 	// 기존에 선택했던 별점 나타내기
 	for(let i = 1; i <= starVal; i++){
-		// console.log(document.querySelector(`.star\${i}`));
 		document.querySelector(`.star\${i}`).classList.add('filled');
 	}
 	
-	// 기존후기 사진첨부 개수에 따라 사진첨부창 추가
+	// 기존후기 사진첨부 개수에 따라 가능한만큼 사진첨부창 추가
 	for(let i = 1; i <= 3 - attachedCnt; i++){
 		document.querySelector(".attach-container").innerHTML +=
 			`<input type="file" class="m-s-review-attach" name="upFiles" id="upFile\${i}" accept="image/*" multiple>`;
@@ -276,29 +276,33 @@ const delImg = (img) => {
 		
 	let upFileNum;
 	
-	// 삭제를 위해 사진이 선택되어 있는 경우 -> 선택 초기화 및 사진첨부창 추가
+	// 삭제를 위해 사진이 선택되어 있는 경우 -> 사진 선택 초기화 및 사진첨부창 초기화 후 추가
 	if(delCheckbox.checked){
 		delCheckbox.checked = false;
 		delImg.style.opacity = "1";
-		delImgWrapper.classList.remove("img-wrapper-delete");
+		delImgWrapper.classList.remove("img-wrapper-delete"); // 선택된 사진임을 나타내는 css가 적용된 클래스 제거
 		
-		attachContainer.innerHTML ='';
-		attachedCnt++;
+		attachContainer.innerHTML =''; // 기존 사진첨부창 초기화
+		attachedCnt++; // 기존 첨부된 사진 개수 증가
 		
+		// 첨부 가능한 개수만큼 사진첨부창 추가
 		for(let i = 1; i <= 3 - attachedCnt; i++){
 			attachContainer.innerHTML +=
 				`<input type="file" class="m-s-review-attach" name="upFiles" id="upFile\${i}" accept="image/*" multiple>`;
 		}
 	}
+	// 사진이 선택되어 있지 않은 경우 -> 사진 선택 및 사진첨부창 추가
 	else{
 		delCheckbox.checked = true;
 		delImg.style.opacity = "0.4";
-		delImgWrapper.classList.add("img-wrapper-delete");
+		delImgWrapper.classList.add("img-wrapper-delete"); // 선택된 사진임을 나타내는 css가 적용된 클래스 추가
 		
 		upFileNum = 3 - attachedCnt + 1;
+		// 사진첨부창 추가
 		attachContainer.innerHTML += 
 			`<input type="file" class="m-s-review-attach" name="upFiles" id="upFile\${upFileNum}" accept="image/*" multiple>`;
-		attachedCnt--;
+			
+		attachedCnt--; // 기존 첨부된 사진 개수 감소
 		
 	}
 }

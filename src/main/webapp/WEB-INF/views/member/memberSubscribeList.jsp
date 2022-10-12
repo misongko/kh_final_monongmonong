@@ -40,7 +40,7 @@
 			    <th class="s-order-status" data-order-no="${subList.SOrderNo}">
 			    	${subList.SOrderStatus}
 					<c:if test="${subList.SOrderStatus eq '배송완료' && empty subList.SReviewNo && subList.reviewEndDate > today}">
-					 	<input type="button" class="btn btn-116530 btn-s-order-review" id="btnWriteReview" value="리뷰쓰기" />
+					 	<input type="button" class="btn btn-116530 btn-s-order-review" id="btnWriteReview" value="후기작성" />
 					</c:if>	    
 	    		</th>
 			  </tr>
